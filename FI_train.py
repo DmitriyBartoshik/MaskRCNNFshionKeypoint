@@ -26,25 +26,22 @@ config.gpu_options.allow_growth = True
 sess = tf.Session(config=config)
 KTF.set_session(sess)
 
-PART_INDEX = {'blouse': [0, 1, 2, 3, 4, 5, 6, 9, 10, 11, 12, 13, 14],
-              'outwear': [0, 1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
-              'dress': [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 17, 18],
-              'skirt': [15, 16, 17, 18],
-              'trousers': [15, 16, 19, 20, 21, 22, 23]}
-PART_STR = ['neckline_left', 'neckline_right',
-            'center_front',
-            'shoulder_left', 'shoulder_right',
-            'armpit_left', 'armpit_right',
-            'waistline_left', 'waistline_right',
-            'cuff_left_in', 'cuff_left_out',
-            'cuff_right_in', 'cuff_right_out',
-            'top_hem_left', 'top_hem_right',
-            'waistband_left', 'waistband_right',
-            'hemline_left', 'hemline_right',
+#PART_INDEX = {'blouse': [0, 1, 2, 3, 4, 5, 6, 9, 10, 11, 12, 13, 14],
+#              'outwear': [0, 1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+#              'dress': [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 17, 18],
+#              'skirt': [15, 16, 17, 18],
+#              'trousers': [15, 16, 19, 20, 21, 22, 23]}
+
+PART_INDEX = {'trousers': [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]}
+
+PART_STR = ['waistband_left', 'waistband_center', 'waistband_right',
+            'hip_left_out', 'knee_left_out', 'bottom_left_out',
+            'bottom_left_in', 'knee_left_in',
             'crotch',
-            'bottom_left_in', 'bottom_left_out',
-            'bottom_right_in', 'bottom_right_out']
-IMAGE_CATEGORY = ['blouse', 'outwear', 'dress', 'skirt', 'trousers'][2]
+            'knee_right_in', 'bottom_right_in',
+            'bottom_right_out', 'knee_right_out', 'hip_right_out']
+# IMAGE_CATEGORY = ['blouse', 'outwear', 'dress', 'skirt', 'trousers'][2]
+IMAGE_CATEGORY = ['trousers'][2]
 
 
 class FIConfig(Config):
@@ -94,13 +91,13 @@ class FIDataset(utils.Dataset):
     """
     with_mask = False
 
-    def load_FI(self, training = True):
+    def load_FI(self, training=True):
         """Generate the requested number of synthetic images.
         count: number of images to generate.
         height, width: the size of the generated images.
         """
-        csv_data = pd.concat([pd.read_csv('../keypoint_data/train1.csv'),
-                              pd.read_csv('../keypoint_data/train2.csv')],
+        csv_data = pd.concat([pd.read_csv('../keypoint_data/train.csv'),
+                              pd.read_csv('../keypoint_data/validation.csv')],
                              axis=0,
                              ignore_index=True  # 忽略索引表示不会直接拼接索引，会重新计算行数索引
                              )
@@ -154,7 +151,7 @@ class FIDataset(utils.Dataset):
             except IndexError as e:
                 print(e)
                 print("Image serial number is {}".format(image_id))
-                mask[keypoints[:, 1]-1, keypoints[:, 0]-1] = 1
+                mask[keypoints[:, 1] - 1, keypoints[:, 0] - 1] = 1
             return np.expand_dims(keypoints, 0).copy(), np.expand_dims(mask, -1), class_ids
         return np.expand_dims(keypoints, 0).copy(), None, class_ids
 
@@ -201,8 +198,8 @@ if __name__ == "__main__":
     except TypeError as e:
         model.load_weights('./mask_rcnn_coco.h5', by_name=True,
                            exclude=["mrcnn_class_logits", "mrcnn_bbox_fc",
-                                         "mrcnn_bbox", "mrcnn_mask"])
+                                    "mrcnn_bbox", "mrcnn_mask"])
 
     model.train(data_tra, data_val,
-                learning_rate=config.LEARNING_RATE/10,
+                learning_rate=config.LEARNING_RATE / 10,
                 epochs=400, layers='heads')
