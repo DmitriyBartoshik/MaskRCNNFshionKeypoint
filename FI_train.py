@@ -32,7 +32,7 @@ KTF.set_session(sess)
 #              'skirt': [15, 16, 17, 18],
 #              'trousers': [15, 16, 19, 20, 21, 22, 23]}
 
-PART_INDEX = {'trousers': [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]}
+PART_INDEX = {'trousers': [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]}
 
 PART_STR = ['waistband_left', 'waistband_center', 'waistband_right',
             'hip_left_out', 'knee_left_out', 'bottom_left_out',
@@ -41,7 +41,7 @@ PART_STR = ['waistband_left', 'waistband_center', 'waistband_right',
             'knee_right_in', 'bottom_right_in',
             'bottom_right_out', 'knee_right_out', 'hip_right_out']
 # IMAGE_CATEGORY = ['blouse', 'outwear', 'dress', 'skirt', 'trousers'][2]
-IMAGE_CATEGORY = ['trousers'][2]
+IMAGE_CATEGORY = ['trousers'][0]
 
 
 class FIConfig(Config):
@@ -96,8 +96,8 @@ class FIDataset(utils.Dataset):
         count: number of images to generate.
         height, width: the size of the generated images.
         """
-        csv_data = pd.concat([pd.read_csv('../keypoint_data/train.csv'),
-                              pd.read_csv('../keypoint_data/validation.csv')],
+        csv_data = pd.concat([pd.read_csv('keypoint_data/train/Annotations/train.csv'),
+                              pd.read_csv('keypoint_data/validation/Annotations/validation.csv')],
                              axis=0,
                              ignore_index=True  # 忽略索引表示不会直接拼接索引，会重新计算行数索引
                              )
