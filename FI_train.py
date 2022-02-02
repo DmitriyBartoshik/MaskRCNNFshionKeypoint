@@ -32,7 +32,7 @@ KTF.set_session(sess)
 #              'skirt': [15, 16, 17, 18],
 #              'trousers': [15, 16, 19, 20, 21, 22, 23]}
 
-PART_INDEX = {'trousers': [0, 2, 3, 4, 5, 6, 7]}
+PART_INDEX = {'trousers': [0, 1, 2, 3, 4, 5, 6]}
 
 PART_STR = ['waistband_left', 'waistband_right', 'crotch',  'bottom_left_in',
             'bottom_left_out', 'bottom_right_in', 'bottom_right_out']
