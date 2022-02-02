@@ -32,14 +32,11 @@ KTF.set_session(sess)
 #              'skirt': [15, 16, 17, 18],
 #              'trousers': [15, 16, 19, 20, 21, 22, 23]}
 
-PART_INDEX = {'trousers': [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]}
+PART_INDEX = {'trousers': ['waistband_left', 'waistband_right', 'crotch',  'bottom_left_in',
+                           'bottom_left_out', 'bottom_right_in', 'bottom_right_out']}
 
-PART_STR = ['waistband_left', 'waistband_center', 'waistband_right',
-            'hip_left_out', 'knee_left_out', 'bottom_left_out',
-            'bottom_left_in', 'knee_left_in',
-            'crotch',
-            'knee_right_in', 'bottom_right_in',
-            'bottom_right_out', 'knee_right_out', 'hip_right_out']
+PART_STR = ['waistband_left', 'waistband_right', 'crotch',  'bottom_left_in',
+            'bottom_left_out', 'bottom_right_in', 'bottom_right_out']
 # IMAGE_CATEGORY = ['blouse', 'outwear', 'dress', 'skirt', 'trousers'][2]
 IMAGE_CATEGORY = ['trousers'][0]
 
@@ -113,7 +110,7 @@ class FIDataset(utils.Dataset):
         # Add images
         for i in range(load_data.shape[0]):
             annotation = load_data.iloc[i]
-            img_path = os.path.join("../keypoint_data", annotation.image_id)
+            img_path = os.path.join("../keypoint_data/train/", annotation.image_id)
             keypoints = np.array([p.split('_')
                                   for p in load_data.iloc[i][2:]], dtype=int)[PART_INDEX[IMAGE_CATEGORY], :]
             keypoints[:, -1] += 1
