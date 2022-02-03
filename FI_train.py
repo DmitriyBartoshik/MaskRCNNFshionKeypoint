@@ -93,7 +93,7 @@ class FIDataset(utils.Dataset):
         height, width: the size of the generated images.
         """
         csv_data = pd.concat([pd.read_csv('keypoint_data/train/Annotations/train.csv'),
-                              pd.read_csv('keypoint_data/validation/Annotations/validation.csv')],
+                              pd.read_csv('keypoint_data/train/Annotations/validation.csv')],
                              axis=0,
                              ignore_index=True  # 忽略索引表示不会直接拼接索引，会重新计算行数索引
                              )
