@@ -61,7 +61,7 @@ class FIConfig(Config):
 
     RPN_TRAIN_ANCHORS_PER_IMAGE = 100
     VALIDATION_STPES = 100
-    STEPS_PER_EPOCH = 1000
+    STEPS_PER_EPOCH = 12400
     MINI_MASK_SHAPE = (56, 56)
     KEYPOINT_MASK_POOL_SIZE = 7
 
@@ -197,5 +197,5 @@ if __name__ == "__main__":
                                     "mrcnn_bbox", "mrcnn_mask"])
 
     model.train(data_tra, data_val,
-                learning_rate=config.LEARNING_RATE / 10,
-                epochs=400, layers='heads')
+                learning_rate=config.LEARNING_RATE,
+                epochs=100, layers='heads')
