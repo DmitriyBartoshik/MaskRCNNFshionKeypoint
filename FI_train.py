@@ -109,7 +109,7 @@ class FIDataset(utils.Dataset):
         # Add images
         for i in range(load_data.shape[0]):
             annotation = load_data.iloc[i]
-            img_path = os.path.join("../keypoint_data/train/", annotation.image_id)
+            img_path = os.path.join("keypoint_data/train/", annotation.image_id)
             keypoints = np.array([p.split('_')
                                   for p in load_data.iloc[i][2:]], dtype=int)[PART_INDEX[IMAGE_CATEGORY], :]
             keypoints[:, -1] += 1
